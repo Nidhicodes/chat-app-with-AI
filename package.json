@@ -23,6 +23,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "shadcn-ui": "^0.9.1",
     "svix": "^1.34.0",
     "tailwind-merge": "^2.5.2",
