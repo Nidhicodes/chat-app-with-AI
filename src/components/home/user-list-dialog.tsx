@@ -73,7 +73,6 @@ const UserListDialog = () => {
 			setGroupName("");
 			setSelectedImage(null);
 
-			// TODO => Update a global state called "selectedConversation"
 			const conversationName = isGroup ? groupName : users?.find((user) => user._id === selectedUsers[0])?.name;
 
 			setSelectedConversation({
@@ -106,9 +105,8 @@ const UserListDialog = () => {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					{/* TODO: <DialogClose /> will be here */}
 					<DialogClose ref={dialogCloseRef} />
-					<DialogTitle>USERS</DialogTitle>
+					<DialogTitle>Contacts</DialogTitle>
 				</DialogHeader>
 
 				<DialogDescription>Start a new chat</DialogDescription>
@@ -117,7 +115,6 @@ const UserListDialog = () => {
 						<Image src={renderedImage} fill alt='user image' className='rounded-full object-cover' />
 					</div>
 				)}
-				{/* TODO: input file */}
 				<input
 					type='file'
 					accept='image/*'
@@ -178,7 +175,6 @@ const UserListDialog = () => {
 						onClick={handleCreateConversation}
 						disabled={selectedUsers.length === 0 || (selectedUsers.length > 1 && !groupName) || isLoading}
 					>
-						{/* spinner */}
 						{isLoading ? (
 							<div className='w-5 h-5 border-t-2 border-b-2  rounded-full animate-spin' />
 						) : (
