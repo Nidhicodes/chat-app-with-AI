@@ -73,7 +73,7 @@ export const getMessages = query({
 						.query("users")
 						.filter((q) => q.eq(q.field("_id"), message.sender))
 						.first();
-					// Cache the sender profile
+					
 					userProfileCache.set(message.sender, sender);
 				}
 
