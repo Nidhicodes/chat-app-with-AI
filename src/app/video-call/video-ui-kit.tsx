@@ -3,7 +3,7 @@ import { useClerk } from "@clerk/nextjs";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
 export function getUrlParams(url = window.location.href) {
-	let urlStr = url.split("?")[1];
+	const urlStr = url.split("?")[1]; // Changed `let` to `const`
 	return new URLSearchParams(urlStr);
 }
 
@@ -11,34 +11,43 @@ export default function VideoUIKit() {
 	const roomID = getUrlParams().get("roomID") || randomID(5);
 	const { user } = useClerk();
 
-	let myMeeting = (element: HTMLDivElement) => {
+	const myMeeting = (element: HTMLDivElement) => { // Changed `let` to `const`
 		const initMeeting = async () => {
-			const res = await fetch(`/api/zegocloud?userID=${user?.id}`);
-			const { token, appID } = await res.json();
+			try {
+				const res = await fetch(`/api/zegocloud?userID=${user?.id}`);
+				const { token, appID } = await res.json();
 
-			const username = user?.fullName || user?.emailAddresses[0].emailAddress.split("@")[0];
+				const username = user?.fullName || user?.emailAddresses[0]?.emailAddress.split("@")[0];
 
-			const kitToken = ZegoUIKitPrebuilt.generateKitTokenForProduction(appID, token, roomID, user?.id!, username);
+				if (!user?.id) {
+					console.error("User ID is undefined");
+					return;
+				}
 
-			const zp = ZegoUIKitPrebuilt.create(kitToken);
-			zp.joinRoom({
-				container: element,
-				sharedLinks: [
-					{
-						name: "Personal link",
-						url:
-							window.location.protocol +
-							"//" +
-							window.location.host +
-							window.location.pathname +
-							"?roomID=" +
-							roomID,
+				const kitToken = ZegoUIKitPrebuilt.generateKitTokenForProduction(appID, token, roomID, user.id, username);
+
+				const zp = ZegoUIKitPrebuilt.create(kitToken);
+				zp.joinRoom({
+					container: element,
+					sharedLinks: [
+						{
+							name: "Personal link",
+							url:
+								window.location.protocol +
+								"//" +
+								window.location.host +
+								window.location.pathname +
+								"?roomID=" +
+								roomID,
+						},
+					],
+					scenario: {
+						mode: ZegoUIKitPrebuilt.GroupCall,
 					},
-				],
-				scenario: {
-					mode: ZegoUIKitPrebuilt.GroupCall, 
-				},
-			});
+				});
+			} catch (error) {
+				console.error("Error during ZegoCloud initialization", error);
+			}
 		};
 		initMeeting();
 	};

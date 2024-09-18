@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { MessageSeenSvg } from "@/lib/svgs";
 import { IMessage, useConversationStore } from "@/store/chat-store";
 import ChatBubbleAvatar from "./chat-bubble-avatar";
@@ -7,7 +8,6 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
 import ReactPlayer from "react-player";
 import ChatAvatarActions from "./chat-avatar-actions";
-import { Bot } from "lucide-react";
 
 type ChatBubbleProps = {
 	message: IMessage;

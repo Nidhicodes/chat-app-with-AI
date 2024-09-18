@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
 const isProtectedRoute = createRouteMatcher(["/", "/credits(.*)"]);

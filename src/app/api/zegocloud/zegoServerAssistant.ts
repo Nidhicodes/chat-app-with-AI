@@ -8,20 +8,20 @@ enum ErrorCode {
 	effectiveTimeInSecondsInvalid = 6, 
 }
 
-const enum KPrivilegeKey {
-	PrivilegeKeyLogin = 1,
-	PrivilegeKeyPublish = 2,
-}
+// const enum KPrivilegeKey {
+// 	PrivilegeKeyLogin = 1,
+// 	PrivilegeKeyPublish = 2,
+// }
 
-const enum KPrivilegeVal {
-	PrivilegeEnable = 1,
-	PrivilegeDisable = 0,
-}
+// const enum KPrivilegeVal {
+// 	PrivilegeEnable = 1,
+// 	PrivilegeDisable = 0,
+// }
 
-interface ErrorInfo {
-	errorCode: ErrorCode; 
-	errorMessage: string;
-}
+// interface ErrorInfo {
+// 	errorCode: ErrorCode; 
+// 	errorMessage: string;
+// }
 
 function RndNum(a: number, b: number) {
 

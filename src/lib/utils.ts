@@ -6,30 +6,29 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(date_ms: number) {
-	let date_seconds = date_ms / 1000;
+	const date_seconds = date_ms / 1000;
+	const date_obj = new Date(date_seconds * 1000);
 
-	let date_obj = new Date(date_seconds * 1000);
-
-	let current_date = new Date();
+	const current_date = new Date();
 	current_date.setHours(0, 0, 0, 0); 
-	let current_time = current_date.getTime();
+	const current_time = current_date.getTime();
 
-	let provided_date = new Date(date_obj);
+	const provided_date = new Date(date_obj);
 	provided_date.setHours(0, 0, 0, 0); 
 
 	if (provided_date.getTime() === current_time) {
 		return date_obj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
 	}
 
-	let yesterday = new Date();
+	const yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
-	yesterday.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+	yesterday.setHours(0, 0, 0, 0);
 	if (provided_date.getTime() === yesterday.getTime()) {
 		return "Yesterday";
 	}
 
 	if (provided_date.getDay() < current_date.getDay()) {
-		let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 		return days[provided_date.getDay()];
 	}
 
@@ -46,7 +45,11 @@ export const isSameDay = (timestamp1: number, timestamp2: number): boolean => {
 	);
 };
 
-export const getRelativeDateTime = (message: any, previousMessage: any) => {
+interface Message {
+	_creationTime: number; 
+}
+
+export const getRelativeDateTime = (message: Message, previousMessage: Message | null) => {
 	const today = new Date();
 	const yesterday = new Date(today);
 	yesterday.setDate(yesterday.getDate() - 1);
@@ -79,11 +82,9 @@ export const getRelativeDateTime = (message: any, previousMessage: any) => {
 export function randomID(len: number) {
 	let result = "";
 	if (result) return result;
-	var chars = "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP",
-		maxPos = chars.length,
-		i;
-	len = len || 5;
-	for (i = 0; i < len; i++) {
+	const chars = "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP";
+	const maxPos = chars.length;
+	for (let i = 0; i < len; i++) {
 		result += chars.charAt(Math.floor(Math.random() * maxPos));
 	}
 	return result;

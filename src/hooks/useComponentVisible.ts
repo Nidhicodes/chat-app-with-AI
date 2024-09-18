@@ -1,27 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from 'react';
 
-interface ComponentVisibleHook {
-	ref: React.RefObject<any>;
-	isComponentVisible: boolean;
-	setIsComponentVisible: React.Dispatch<React.SetStateAction<boolean>>;
+function useComponentVisible(initialIsVisible: boolean) {
+    const [isComponentVisible, setIsComponentVisible] = useState<boolean>(initialIsVisible);
+    const ref = useRef<HTMLDivElement>(null); // Correctly type the ref as HTMLDivElement
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                setIsComponentVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    return { ref, isComponentVisible, setIsComponentVisible };
 }
 
-export default function useComponentVisible(initialIsVisible: boolean): ComponentVisibleHook {
-	const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
-	const ref = useRef<any>(null);
-
-	const handleClickOutside = (event: MouseEvent) => {
-		if (ref.current && !ref.current.contains(event.target as Node)) {
-			setIsComponentVisible(false);
-		}
-	};
-
-	useEffect(() => {
-		document.addEventListener("click", handleClickOutside, true);
-		return () => {
-			document.removeEventListener("click", handleClickOutside, true);
-		};
-	}, []);
-
-	return { ref, isComponentVisible, setIsComponentVisible };
-}
+export default useComponentVisible;

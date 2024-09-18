@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { IMessage, useConversationStore } from "@/store/chat-store";
 import { useMutation } from "convex/react";
 import { Ban, LogOut } from "lucide-react";
@@ -39,6 +40,7 @@ const ChatAvatarActions = ({ me, message }: ChatAvatarActionsProps) => {
 	};
 
 	const handleCreateConversation = async () => {
+		if (fromAI) return;
 
 		try {
 			const conversationId = await createConversation({
@@ -66,7 +68,7 @@ const ChatAvatarActions = ({ me, message }: ChatAvatarActionsProps) => {
 		>
 			{isGroup && message.sender.name}
 
-			{!isMember && isGroup && <Ban size={16} className='text-red-500' />}
+			{!isMember && !fromAI && isGroup && <Ban size={16} className='text-red-500' />}
 			{isGroup && isMember && selectedConversation?.admin === me._id && (
 				<LogOut size={16} className='text-red-500 opacity-0 group-hover:opacity-100' onClick={handleKickUser} />
 			)}
