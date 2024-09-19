@@ -88,8 +88,8 @@ const UserListDialog = () => {
 				participants: selectedUsers,
 				isGroup,
 				image: isGroup ? renderedImage : users?.find((user) => user._id === selectedUsers[0])?.image,
-				name: conversationName || "", // Ensure name is not undefined
-				admin: me?._id, // Ensure admin is properly typed
+				name: conversationName || "", 
+				admin: me?._id, 
 			});
 		} catch (err: unknown) {
 			if (err instanceof Error) {
